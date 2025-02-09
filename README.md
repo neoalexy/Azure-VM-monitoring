@@ -1,1 +1,1 @@
-# azure-VM-monitoring
+# Azure-VM-monitoring
