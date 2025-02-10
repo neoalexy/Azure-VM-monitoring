@@ -32,7 +32,7 @@ jobs:
         run: |
           git config --global user.email "aleksandra.crnatovic@gmail.com"
           git config --global user.name "neoalexy"
-          git confiog --global crednetial.helper store
+          git config --global crednetial.helper store
           echo "https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com" > ~/.git-credentials
           
       - name: Add monitoring.sh to repo
