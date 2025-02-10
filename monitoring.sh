@@ -2,7 +2,7 @@
 
 datetime=$(date "+%Y-%m-%d %H:%M:%S")
 logfile=/var/log/sys-monitoring.log
-BACKUPS=tar -czf "/tmp/log-backup-$(date '+%Y-%m-%d').tar.gz" /var/log/*
+BACKUPS=$(tar -czf "/tmp/log-backup-$(date '+%Y-%m-%d').tar.gz" /var/log/*)
 
 
 
@@ -38,15 +38,15 @@ fi
 
 disk_monitoring(){
 disk=$(df / | awk 'NR==2 {print $5}' | sed 's/%//g')
-if (( $disk > $DISK_THRESHOLD )); then
+if (( disk > DISK_THRESHOLD )); then
     echo "WARNING: Disk usage is above $DISK_THRESHOLD%. Current usage: $disk%" | tee -a $logfile
     echo "Creating backup of logs to $BACKUPS" | tee -a $logfile
-    mkdir -p $BACKUPS
-    cp -r /var/log/* $BACKUPS/
+    mkdir -p "$BACKUPS"
+    cp -r /var/log/* "$BACKUPS"/
     echo "Backup completed." | tee -a $logfile
 fi
 
-if (($disk > $DISK_CRITICAL )); then
+if (( disk > DISK_CRITICAL )); then
 echo "CRITICAL ALARM: Disk usage is extremely high. Deleting logs older than a week..." | tee -a $logfile
 find /var/log -type f -mtime +7 -exec rm -f {} \;
 echo "Old logs deleted successfully." | tee -a $logfile
