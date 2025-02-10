@@ -28,10 +28,12 @@ jobs:
         run: |
           scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
 
-      - name: Set up git user identity
+      - name: Set up git credentials
         run: |
           git config --global user.email "aleksandra.crnatovic@gmail.com"
           git config --global user.name "neoalexy"
+          git confiog --global crednetial.helper store
+          echo "https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com" > ~/.git-credentials
           
       - name: Add monitoring.sh to repo
         run: |
