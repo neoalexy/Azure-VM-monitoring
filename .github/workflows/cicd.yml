@@ -54,6 +54,10 @@ jobs:
         run: |
           git pull origin main --rebase
 
+      - name: Push any new changes
+        run: |
+          git push origin main
+
       - name: Add monitoring.sh to repo and push
         run: |
           git add monitoring.sh
