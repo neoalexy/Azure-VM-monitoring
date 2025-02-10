@@ -45,11 +45,6 @@ jobs:
         run: |
           git remote set-url origin https://github.com/neoalexy/Azure-VM-monitoring.git
 
-      - name: Commit any unstaged changes
-        run: |
-          git add .
-          git commit -m "Auto commit before pull" || echo "No changes to commit"
-
       - name: Pull the latest changes from remote
         run: |
           git pull origin main --rebase
@@ -57,7 +52,7 @@ jobs:
       - name: Add monitoring.sh to repo and push
         run: |
           git add monitoring.sh
-          git commit -m "Added script from Azure VM"
+          git commit -m "Added script from Azure VM" || echo "No changes to commit"
           git push -v origin main
 
   deploy:
