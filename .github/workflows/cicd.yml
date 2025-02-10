@@ -30,24 +30,13 @@ jobs:
 
       - name: Check if monitoring.sh has been modified
         run: |
+          echo "Checking for changes in monitoring.sh"
           git diff monitoring.sh || echo "No changes in monitoring.sh"
 
-      - name: Run ShellCheck 
+      - name: Add timestamp to monitoring.sh
         run: |
-          sudo apt-get install -y shellcheck
-          shellcheck monitoring.sh
-
-      - name: Set up git credentials
-        run: |
-          git config --global user.email "aleksandra.crnatovic@gmail.com"
-          git config --global user.name "neoalexy"
-          git config --global credential.helper store
-          echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-          git config --global credential.helper 'store --file ~/.git-credentials'
-
-      - name: Set git remote to HTTPS
-        run: |
-          git remote set-url origin https://github.com/neoalexy/Azure-VM-monitoring.git
+          echo "Adding timestamp to monitoring.sh"
+          echo "Last updated: $(date)" >> monitoring.sh
 
       - name: Check git status
         run: git status
@@ -55,20 +44,7 @@ jobs:
       - name: Force add monitoring.sh to git
         run: |
           git add -f monitoring.sh
-          git commit -m "Auto commit before pull" || echo "No changes to commit"
-
-      - name: Pull the latest changes from remote
-        run: |
-          git pull origin main --rebase
-
-      - name: Push any new changes
-        run: |
-          git push origin main
-
-      - name: Add monitoring.sh to repo and push
-        run: |
-          git add -f monitoring.sh
-          git commit -m "Added script from Azure VM"
+          git commit -m "Added timestamp to monitoring.sh" || echo "No changes to commit"
           git push -v origin main
 
   deploy:
