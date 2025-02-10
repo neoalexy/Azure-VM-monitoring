@@ -21,7 +21,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
           
-      - name: Add VM to known hossts
+      - name: Add VM to known hosts
         run: ssh-keyscan 4.233.193.30 >> ~/.ssh/known_hosts
 
       - name: SSH into Azure VM and get monitoring.sh
