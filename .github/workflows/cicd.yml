@@ -45,9 +45,12 @@ jobs:
         run: |
           git remote set-url origin https://github.com/neoalexy/Azure-VM-monitoring.git
 
+      - name: Check git status
+        run: git status
+
       - name: Commit any unstaged changes
         run: |
-          git add .
+          git add monitoring.sh
           git commit -m "Auto commit before pull" || echo "No changes to commit"
 
       - name: Pull the latest changes from remote
