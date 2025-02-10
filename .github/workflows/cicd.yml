@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -28,6 +28,11 @@ jobs:
         run: |
           scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
 
+      - name: Run ShellCheck 
+        run: |
+          sudo apt-get install -y shellcheck
+          shellcheck monitoring.sh
+
       - name: Set up git credentials
         run: |
           git config --global user.email "aleksandra.crnatovic@gmail.com"
@@ -45,3 +50,24 @@ jobs:
           git add monitoring.sh
           git commit -m "Added script from Azure VM"
           git push -v origin main
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH 
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Add VM to known hosts
+        run: ssh-keyscan 4.233.193.30 >> ~/.ssh/known_hosts
+
+      - name: Deploy monitoring.sh to Azure VM
+        run: |
+          scp monitoring.sh azureuser@4.233.193.30:/home/azureuser/monitoring.sh
+          ssh azureuser@4.233.193.30 "chmod +x /home/azureuser/monitoring.sh && sudo systemctl restart monitoring"
