@@ -28,6 +28,10 @@ jobs:
         run: |
           scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
 
+      - name: Check if monitoring.sh has been modified
+        run: |
+          git diff monitoring.sh || echo "No changes in monitoring.sh"
+
       - name: Run ShellCheck 
         run: |
           sudo apt-get install -y shellcheck
