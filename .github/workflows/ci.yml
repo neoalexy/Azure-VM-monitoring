@@ -27,3 +27,9 @@ jobs:
       - name: SSH into Azure VM and get monitoring.sh
         run: |
           scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
+      
+      - name: Add monitoring.sh to repo
+        run: |
+          git add monitoring.sh
+          git commit -m "Added script from Azure VM"
+          git push origin main
