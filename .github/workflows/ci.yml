@@ -1,0 +1,29 @@
+name: CI
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: 
+      - main
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          
+      - name: Add VM to known hosts
+        run: ssh-keyscan 4.233.193.30 >> ~/.ssh/known_hosts
+
+      - name: SSH into Azure VM and get monitoring.sh
+        run: |
+          scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
