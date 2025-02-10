@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Set up SSH 
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -52,9 +52,9 @@ jobs:
       - name: Check git status
         run: git status
 
-      - name: Commit any unstaged changes
+      - name: Force add monitoring.sh to git
         run: |
-          git add monitoring.sh
+          git add -f monitoring.sh
           git commit -m "Auto commit before pull" || echo "No changes to commit"
 
       - name: Pull the latest changes from remote
@@ -67,7 +67,7 @@ jobs:
 
       - name: Add monitoring.sh to repo and push
         run: |
-          git add monitoring.sh
+          git add -f monitoring.sh
           git commit -m "Added script from Azure VM"
           git push -v origin main
 
