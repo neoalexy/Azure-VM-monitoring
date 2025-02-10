@@ -1,13 +1,13 @@
 name: CI
 
-on: 
+on:
   push:
     branches:
       - main
   pull_request:
-    branches: 
+    branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up SSH
+      - name: Set up SSH 
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
       - name: Add VM to known hosts
         run: ssh-keyscan 4.233.193.30 >> ~/.ssh/known_hosts
@@ -34,10 +34,14 @@ jobs:
           git config --global user.name "neoalexy"
           git config --global credential.helper store
           echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+          git config --global credential.helper 'store --file ~/.git-credentials'
 
-          
-      - name: Add monitoring.sh to repo
+      - name: Set git remote to HTTPS
+        run: |
+          git remote set-url origin https://github.com/neoalexy/Azure-VM-monitoring.git
+
+      - name: Add monitoring.sh to repo and push
         run: |
           git add monitoring.sh
           git commit -m "Added script from Azure VM"
-          git push origin main
+          git push -v origin main
