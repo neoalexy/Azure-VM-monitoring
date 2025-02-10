@@ -63,6 +63,20 @@ jobs:
       - name: Add VM to known hosts
         run: ssh-keyscan 4.233.193.30 >> ~/.ssh/known_hosts
 
+      - name: Backup old script before deployment
+        run: |
+          ssh azureuser@4.233.193.30 "cp /home/azureuser/monitoring.sh /home/azureuser/monitoring.sh.bak"
+
+      - name: Deploy monitoring.sh to Azure VM
+        run: |
+          scp monitoring.sh azureuser@4.233.193.30:/home/azureuser/monitoring.sh
+          ssh azureuser@4.233.193.30 "chmod +x /home/azureuser/monitoring.sh && sudo systemctl restart monitoring"
+
+      - name: Health check after deployment
+        run: |
+          ssh azureuser@4.233.193.30 "tail -n 20 /var/log/sys-monitoring.log | grep 'Monitoring finished' || (echo 'Health check failed, rolling back...' && mv /home/azureuser/monitoring.sh.bak /home/azureuser/monitoring.sh && sudo systemctl restart monitoring)"
+
+
       - name: Deploy monitoring.sh to Azure VM
         run: |
           scp monitoring.sh azureuser@4.233.193.30:/home/azureuser/monitoring.sh
