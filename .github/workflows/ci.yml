@@ -27,7 +27,12 @@ jobs:
       - name: SSH into Azure VM and get monitoring.sh
         run: |
           scp azureuser@4.233.193.30:/home/azureuser/monitoring.sh ./monitoring.sh
-      
+
+      - name: Set up git user identity
+        run: |
+          git config --global user.email "aleksandra.crnatovic@gmail.com"
+          git config --global user.name "neoalexy"
+          
       - name: Add monitoring.sh to repo
         run: |
           git add monitoring.sh
