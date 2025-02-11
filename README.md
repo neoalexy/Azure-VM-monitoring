@@ -76,14 +76,14 @@ Here are some screenshots showing the setup and dashboards:
 
 1. **Azure Inbound Rules**  
    *Description: Configuration in Azure to allow traffic for Prometheus and Grafana.*  
-   ![Azure Inbound Rules](docs/screenshots/InboundSecurityRules.png)
+   ![Azure Inbound Rules](docs/screenshots/InboundSecurityRules.PNG)
    
 2. **Prometheus and Node Exporter Metrics**  
    *Description: Displays the metrics collected by Prometheus, showing system data from both the VM and the Node Exporter.*  
-   ![Prometheus and Node Exporter Metrics](docs/screenshots/Prometheus.png)
+   ![Prometheus and Node Exporter Metrics](docs/screenshots/Prometheus.PNG)
 
 3. **Grafana Dashboard**  
    *Description: Custom Grafana dashboard visualizing the collected metrics.*  
-   ![Grafana Dashboard](docs/screenshots/Grafana.png)
+   ![Grafana Dashboard](docs/screenshots/Grafana.PNG)
 
 
